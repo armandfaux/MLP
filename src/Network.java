@@ -19,6 +19,8 @@ public class Network {
     }
 
     public void train(double[][] inputs, double[][] expectedOutputs, int epochs) {
+        System.out.println("Training network...\n");
+
         for (int epoch = 1; epoch <= epochs; epoch++) {
             double totalLoss = 0.0;
 
@@ -35,6 +37,7 @@ public class Network {
                 System.out.printf("Epoch %d - Loss: %.6f\n", epoch, totalLoss / inputs.length);
             }
         }
+        System.out.println("***\nTraining complete\n");
     }
 
     public double[] predict(double[] input) {
