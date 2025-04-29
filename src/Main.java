@@ -17,7 +17,7 @@ public class Main {
 
         // Network architecture: 2 inputs → 2 hidden → 1 output
         Network network = new Network(new int[]{2, 2, 1});
-        network.setLearningRate(0.5);
+        network.setLearningRate(0.3);
 
         int epochs = 10_000;
 
