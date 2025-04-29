@@ -18,6 +18,29 @@ public class Network {
         }
     }
 
+    public void train(double[][] inputs, double[][] expectedOutputs, int epochs) {
+        for (int epoch = 1; epoch <= epochs; epoch++) {
+            double totalLoss = 0.0;
+
+            for (int i = 0; i < inputs.length; i++) {
+                double[] prediction = this.forward(inputs[i]);
+                this.backward(expectedOutputs[i]);
+
+                // Mean Squared Error
+                double error = prediction[0] - expectedOutputs[i][0];
+                totalLoss += error * error;
+            }
+
+            if (epoch % 1000 == 0) {
+                System.out.printf("Epoch %d - Loss: %.6f\n", epoch, totalLoss / inputs.length);
+            }
+        }
+    }
+
+    public double[] predict(double[] input) {
+        return this.forward(input);
+    }
+
     public double[] forward(double[] input) {
         double[] output = input;
 

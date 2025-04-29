@@ -1,2 +1,4 @@
 # MLP
-Multilayer Perceptron implementation from scratch
+Neural Network API for Java (Multilayer Perceptron architecture)
+
+##
