@@ -60,13 +60,13 @@ class Layer {
         return output;
     }
 
-    public double[] backward(double[] delta, double learningRate) {
+    public double[] backward(double[] delta, double learningRate, Function<Double, Double> derivativeFunction) {
         double[] newDelta = new double[this.previousLayerSize];
 
         // For each neuron in this layer
         for (int neuron = 0; neuron < this.size; neuron++) {
             // Compute delta (error)
-            double derivative = Activation.derivativeSigmoid(this.lastOutput[neuron]);
+            double derivative = derivativeFunction.apply(this.lastOutput[neuron]);
             double delta_i = delta[neuron] * derivative;
 
             for (int i = 0; i < this.previousLayerSize; i++) {

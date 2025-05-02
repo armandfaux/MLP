@@ -20,7 +20,7 @@ public class Main {
         Network network = new Network(new int[]{2, 2, 1});
         network.setLearningRate(0.9);
         network.setLossTrackingEpochs(10_000);
-        network.setActivationOption("TANH");
+        network.setActivationOption("SIGM");
         network.train(inputs, expectedOutputs, 100_000);
 
         double prediction = network.predict(inputs[1])[0];

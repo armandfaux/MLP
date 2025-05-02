@@ -77,7 +77,7 @@ public class Network {
     
         // Step 2: Backpropagate through the layers
         for (int i = this.layers.length - 1; i >= 0; i--) {
-            error = this.layers[i].backward(error, this.learningRate);
+            error = this.layers[i].backward(error, this.learningRate, this.derivativeFunction);
         }
     }
 
@@ -99,6 +99,13 @@ public class Network {
             case "SIGM" -> Activation::sigmoid;
             case "RELU" -> Activation::relu;
             case "TANH" -> Activation::tanh;
+            default -> throw new IllegalArgumentException("Invalid activation option. Use 'SIGM', 'RELU', or 'TANH'.");
+        };
+
+        this.derivativeFunction = switch (activationOption) {
+            case "SIGM" -> Activation::derivativeSigmoid;
+            case "RELU" -> Activation::derivativeRelu;
+            case "TANH" -> Activation::derivativeTanh;
             default -> throw new IllegalArgumentException("Invalid activation option. Use 'SIGM', 'RELU', or 'TANH'.");
         };
     }
