@@ -102,4 +102,8 @@ public class Network {
     public String getWeightInitOption() {
         return this.weightInitOption;
     }
+
+    public Layer[] getLayers() {
+        return layers;
+    }
 }
