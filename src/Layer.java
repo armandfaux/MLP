@@ -1,3 +1,5 @@
+import java.util.function.Function;
+
 class Layer {
     private int size;
     private int previousLayerSize;
@@ -33,9 +35,7 @@ class Layer {
         }
     }
 
-    public double[] forward(double[] input) {
-        // display();
-
+    public double[] forward(double[] input, Function<Double, Double> activationFunction) {
         if (input.length != this.previousLayerSize) {
             throw new IllegalArgumentException("Input size does not match the previous layer size.");
         }
@@ -52,7 +52,7 @@ class Layer {
             }
 
             // Add bias and activation function
-            output[neuron] = Activation.sigmoid(sum_weighted_input + this.biases[neuron]);
+            output[neuron] = activationFunction.apply(sum_weighted_input + this.biases[neuron]);
         }
 
         this.lastInput = input;

@@ -4,8 +4,8 @@ Neural Network API for Java (Multilayer Perceptron architecture)
 ## Features
 Activation options :
 - Sigmoid
-- ReLU (soon)
-- TAHN (soon)
+- ReLU
+- TAHN
 
 Weight initialization :
 - Random

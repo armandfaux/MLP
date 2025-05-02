@@ -1,9 +1,14 @@
+import java.util.function.Function;
+
 public class Network {
     private Layer[] layers; // Array of layers in the network
     private double learningRate;
     private String activationOption; // SIGM / RELU / TANH
     private String weightInitOption; // RAND / XAVIER / HE
     private int lossTrackingEpochs;
+
+    private Function<Double, Double> activationFunction;
+    private Function<Double, Double> derivativeFunction;
 
     public Network(int[] layerSizes) {
         this.layers = new Layer[layerSizes.length - 1];
@@ -12,6 +17,10 @@ public class Network {
         this.learningRate = 0.1;
         this.activationOption = "SIGM";
         this.weightInitOption = "RAND";
+
+        this.activationFunction = Activation::sigmoid;
+        this.derivativeFunction = Activation::derivativeSigmoid;
+
         this.lossTrackingEpochs = 1000; // Display loss every n epochs
 
         for (int i = 0; i < layerSizes.length - 1; i++) {
@@ -50,7 +59,7 @@ public class Network {
         double[] output = input;
 
         for (Layer l : this.layers) {
-            output = l.forward(output);
+            output = l.forward(output, this.activationFunction);
         }
 
         return output;
@@ -58,22 +67,17 @@ public class Network {
 
     public void backward(double[] expectedOutput) {
         // Step 1: Compute the error at the output layer
-
-        double[] actualOutput = this.layers[this.layers.length - 1].getLastOutput(); // OPTION 1 : get output from output layer
+        double[] actualOutput = this.layers[this.layers.length - 1].getLastOutput();
         double[] error = new double[expectedOutput.length];
     
         for (int i = 0; i < expectedOutput.length; i++) {
             // Chain rule
-            error[i] = (actualOutput[i] - expectedOutput[i]) * Activation.derivativeSigmoid(actualOutput[i]);
+            error[i] = (actualOutput[i] - expectedOutput[i]) * this.derivativeFunction.apply(actualOutput[i]);
         }
     
         // Step 2: Backpropagate through the layers
         for (int i = this.layers.length - 1; i >= 0; i--) {
-            error = this.layers[i].backward(error, this.learningRate); 
-            // This method will:
-            // - compute gradients
-            // - update weights and biases
-            // - return the propagated error to the previous layer
+            error = this.layers[i].backward(error, this.learningRate);
         }
     }
 
@@ -91,6 +95,12 @@ public class Network {
     
     public void setActivationOption(String activationOption) {
         this.activationOption = activationOption;
+        this.activationFunction = switch (activationOption) {
+            case "SIGM" -> Activation::sigmoid;
+            case "RELU" -> Activation::relu;
+            case "TANH" -> Activation::tanh;
+            default -> throw new IllegalArgumentException("Invalid activation option. Use 'SIGM', 'RELU', or 'TANH'.");
+        };
     }
     
     public String getWeightInitOption() {
