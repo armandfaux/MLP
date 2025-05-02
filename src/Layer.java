@@ -19,8 +19,7 @@ class Layer {
         this.lastInput = new double[previousLayerSize];
     }
 
-    public void initialize(String weightOption) { 
-        // Set biases to random values from 0 to 1
+    public void initialize(String weightOption) {
         for (int i = 0; i < this.size; i++) {
             biases[i] = Math.random();
         }
@@ -89,6 +88,23 @@ class Layer {
     public double[] getLastOutput() {
         return lastOutput;
     }
+
+    public int getSize() {
+        return size;
+    }
+
+    public int getPreviousLayerSize() {
+        return previousLayerSize;
+    }
+
+    public double[][] getWeights() {
+        return weights;
+    }
+
+    public double getBiasOfNeuron(int index) {
+        return this.biases[index];
+    }
+    
 
     public void display() {
         System.out.println("=== Layer Details ===");

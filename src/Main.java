@@ -17,7 +17,7 @@ public class Main {
         };
 
         // Network architecture: 2 inputs → 2 hidden → 1 output
-        Network network = new Network(new int[]{2, 2, 1});
+        Network network = new Network(new int[]{2, 4, 2, 1});
         network.setLearningRate(0.3);
         network.train(inputs, expectedOutputs, 10_000);
 
@@ -26,5 +26,22 @@ public class Main {
 
         prediction = network.predict(inputs[3])[0];
         System.out.printf("AND gate prediction for (1, 1) : %f\n", prediction);
+
+        for (Layer l : network.getLayers()) {
+            l.display();
+        }
+
+        //////////////
+
+        Renderer renderer = new Renderer("Neural Network", 800, 600, network);
+
+        while (true) {
+            renderer.refresh();
+            try {
+                Thread.sleep(1000 / 60); // 60 FPS
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
