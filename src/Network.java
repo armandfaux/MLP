@@ -3,6 +3,7 @@ public class Network {
     private double learningRate;
     private String activationOption; // SIGM / RELU / TANH
     private String weightInitOption; // RAND / XAVIER / HE
+    private int lossTrackingEpochs;
 
     public Network(int[] layerSizes) {
         this.layers = new Layer[layerSizes.length - 1];
@@ -11,6 +12,7 @@ public class Network {
         this.learningRate = 0.1;
         this.activationOption = "SIGM";
         this.weightInitOption = "RAND";
+        this.lossTrackingEpochs = 1000; // Display loss every n epochs
 
         for (int i = 0; i < layerSizes.length - 1; i++) {
             this.layers[i] = new Layer(layerSizes[i + 1], layerSizes[i]);
@@ -33,7 +35,7 @@ public class Network {
                 totalLoss += error * error;
             }
 
-            if (epoch % 1000 == 0) {
+            if (epoch % this.lossTrackingEpochs == 0) {
                 System.out.printf("Epoch %d - Loss: %.6f\n", epoch, totalLoss / inputs.length);
             }
         }
@@ -82,13 +84,17 @@ public class Network {
     public void setLearningRate(double learningRate) {
         this.learningRate = learningRate;
     }
-
+    
+    public String getActivationOption() {
+        return this.activationOption;
+    }
+    
     public void setActivationOption(String activationOption) {
         this.activationOption = activationOption;
     }
-
-    public String getActivationOption() {
-        return this.activationOption;
+    
+    public String getWeightInitOption() {
+        return this.weightInitOption;
     }
 
     public void setWeightInitOption(String weightInitOption) {
@@ -99,11 +105,16 @@ public class Network {
         this.weightInitOption = weightInitOption;
     }
 
-    public String getWeightInitOption() {
-        return this.weightInitOption;
+    public int getLossTrackingEpochs() {
+        return lossTrackingEpochs;
+    }
+
+    public void setLossTrackingEpochs(int lossTrackingEpochs) {
+        this.lossTrackingEpochs = lossTrackingEpochs;
     }
 
     public Layer[] getLayers() {
         return layers;
     }
+
 }
