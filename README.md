@@ -13,6 +13,7 @@ Weight initialization :
 - HE (soon)
 
 Confusion matrix computation
+Graphical representation of weights and biases
 
 ## Sample test
 
