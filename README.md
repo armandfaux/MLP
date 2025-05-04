@@ -43,4 +43,4 @@ Epochs :                    10
 Activation :                Sigmoid
 Weight initialisation :     Random
 ```
-
+![Logs](MNIST_footage.png)
