@@ -1,49 +1,36 @@
 public class Main {
-    // This exemple handles logic gates recognition
     public static void main(String[] args) {
-        double[][] inputs = {
-            {0, 0},
-            {0, 1},
-            {1, 0},
-            {1, 1}
-        };
+        // Load training dataset
+        System.out.println("Loading training data...");
+        Dataset trainingData = CsvReader.readCSV("mnist_train.csv");
 
-        // AND gate behavior
-        double[][] expectedOutputs = {
-            {0},
-            {1},
-            {1},
-            {0},
-        };
+        Network mlp = new Network(new int[]{784, 64, 32, 16, 10});
 
-        // Network architecture: 2 inputs → 2 hidden → 1 output
-        Network network = new Network(new int[]{2, 2, 1});
-        network.setLearningRate(0.9);
-        network.setLossTrackingEpochs(10_000);
-        network.setActivationOption("SIGM");
-        network.train(inputs, expectedOutputs, 100_000);
+        // Train network
+        mlp.setLearningRate(0.02);
+        mlp.setLossTrackingEpochs(1);
+        mlp.train(trainingData.inputs, trainingData.expectedOutputs, 10);
 
-        double prediction = network.predict(inputs[1])[0];
-        System.out.printf("AND gate prediction for (0, 1) : %f\n", prediction);
+        // Load test dataset
+        System.out.println("Loading test data...");
+        Dataset testData = CsvReader.readCSV("mnist_test.csv");
 
-        prediction = network.predict(inputs[3])[0];
-        System.out.printf("AND gate prediction for (1, 1) : %f\n\n", prediction);
+        // Evaluate on test dataset
+        int correct = 0;
+        int total = testData.inputs.length;
 
-        for (Layer l : network.getLayers()) {
-            l.display();
-        }
+        for (int i = 0; i < total; i++) {
+            double[] prediction = mlp.predict(testData.inputs[i]);
 
-        //////////////
+            int predictedDigit = Utils.argMax(prediction);
+            int actualDigit = Utils.argMax(testData.expectedOutputs[i]);
 
-        Renderer renderer = new Renderer("Neural Network", 800, 600, network);
-
-        while (true) {
-            renderer.refresh();
-            try {
-                Thread.sleep(1000 / 60); // 60 FPS
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+            if (predictedDigit == actualDigit) {
+                correct++;
             }
         }
+
+        double accuracy = 100.0 * correct / total;
+        System.out.printf("Test accuracy: %.2f%% (%d/%d correct)%n", accuracy, correct, total);
     }
 }

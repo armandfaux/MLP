@@ -55,6 +55,19 @@ public class Network {
         return this.forward(input);
     }
 
+    public int[][] computeConfusionMatrix(double[][] inputs, int[] trueLabels, int numClasses) {
+        int[][] confusionMatrix = new int[numClasses][numClasses];
+    
+        for (int i = 0; i < inputs.length; i++) {
+            double[] output = this.predict(inputs[i]);
+            int predicted = Utils.argMax(output);
+            int actual = trueLabels[i];
+            confusionMatrix[actual][predicted]++;
+        }
+
+        return confusionMatrix;
+    }
+
     public double[] forward(double[] input) {
         double[] output = input;
 
@@ -126,6 +139,7 @@ public class Network {
         return lossTrackingEpochs;
     }
 
+    // Control loss displaying every n epochs
     public void setLossTrackingEpochs(int lossTrackingEpochs) {
         this.lossTrackingEpochs = lossTrackingEpochs;
     }

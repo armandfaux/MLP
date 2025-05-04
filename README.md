@@ -12,6 +12,8 @@ Weight initialization :
 - Xavier (soon)
 - HE (soon)
 
+Confusion matrix computation
+
 ## Sample test
 
     int[] layers = new int[]{2, 2, 1} // 2 input neurons, 2 hidden, 1 output
