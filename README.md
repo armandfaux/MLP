@@ -33,3 +33,14 @@ Confusion matrix computation
 
 
 ~ See Main.java ~
+
+## Results
+Using the MNIST dataset for digit recognition
+```
+Layers :                    [784, 64, 32, 10]
+Learning rate :             0.02
+Epochs :                    10
+Activation :                Sigmoid
+Weight initialisation :     Random
+```
+
