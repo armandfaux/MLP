@@ -2,18 +2,18 @@
 Neural Network API for Java (Multilayer Perceptron architecture)
 
 ## Features
-Activation options :
-- Sigmoid
-- ReLU
-- TAHN
+- Activation options :
+    - Sigmoid
+    - ReLU
+    - TAHN
 
-Weight initialization :
-- Random
-- Xavier (soon)
-- HE (soon)
+- Weight initialization :
+    - Random
+    - Xavier (soon)
+    - HE (soon)
 
-Confusion matrix computation
-Graphical representation of weights and biases
+- Confusion matrix computation
+- Graphical representation of weights and biases
 
 ## Sample test
 
